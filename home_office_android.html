@@ -77,7 +77,7 @@
 <body>
   <main class="card">
     <h1>Visualizar Home Office em AR (Android)</h1>
-    <p>Abra este link em um celular Android compatível com ARCore para iniciar o Google Scene Viewer.</p>
+    <p>Abra este link em um celular Android (Chrome) compatível com ARCore para iniciar o Google Scene Viewer.</p>
 
     <a id="ar-link" class="button" rel="noopener">Ver em AR no Android</a>
 
@@ -85,11 +85,10 @@
   </main>
 
   <script>
-    // URL pública HTTPS do seu modelo GLB (troque se necessário)
-    const modelUrl = 'https://studioserralheria.github.io/home_office.glb';
-
-    // Página para fallback quando o Scene Viewer não estiver disponível
-    const fallbackUrl = 'https://studioserralheria.github.io/index.html';
+    // Usa caminhos relativos ao próprio home_office_android.html
+    // para funcionar tanto em domínio próprio quanto no GitHub Pages de projeto.
+    const modelUrl = new URL('home_office.glb', window.location.href).href;
+    const fallbackUrl = new URL('index.html', window.location.href).href;
 
     const title = 'Home Office';
     const mode = 'ar_preferred'; // ou 'ar_only'
@@ -104,7 +103,8 @@
       ';end;';
 
     const arLink = document.getElementById('ar-link');
-    arLink.href = sceneViewerUrl;
+    const isAndroid = /android/i.test(navigator.userAgent);
+    arLink.href = isAndroid ? sceneViewerUrl : fallbackUrl;
   </script>
 </body>
 </html>
